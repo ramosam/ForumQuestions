@@ -11,6 +11,8 @@ namespace ForumQuestions.Repositories
         private List<Question> questions = new List<Question>();
         private List<Reply> replies = new List<Reply>();
 
+   
+
         public FakeRepository()
         {
             if (questions.Count == 0) { AddTestData(); }
@@ -18,7 +20,56 @@ namespace ForumQuestions.Repositories
 
         private void AddTestData()
         {
-            throw new NotImplementedException();
+            Question q1 = new Question
+            {
+                QuestionHeader = "questionHeader1",
+                QuestionBody = "questionBody1"
+            };
+            q1.FindKeywords();
+            Question q2 = new Question
+            {
+                QuestionHeader = "questionHeader2",
+                QuestionBody = "questionBody2"
+            };
+            q2.FindKeywords();
+            Question q3 = new Question
+            {
+                QuestionHeader = "questionHeader3",
+                QuestionBody = "questionBody3"
+            };
+            q3.FindKeywords();
+            AddQuestion(q1);
+            AddQuestion(q2);
+            AddQuestion(q3);
+
+            Reply r1 = new Reply
+            {
+                QuestionPost = q1,
+                ReplyBody = "reply1"
+            };
+            r1.FindKeywords();
+            Reply r2 = new Reply
+            {
+                QuestionPost = q2,
+                ReplyBody = "reply2"
+            };
+            r2.FindKeywords();
+            Reply r3 = new Reply
+            {
+                QuestionPost = q3,
+                ReplyBody = "reply3"
+            };
+            r3.FindKeywords();
+            AddReply(q1, r1);
+            AddReply(q2, r2);
+            AddReply(q3, r3);
+
+
+
+
+
+
+
         }
 
         public List<Question> Questions => questions;

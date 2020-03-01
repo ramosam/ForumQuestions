@@ -7,34 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ForumQuestions.Data;
 using ForumQuestions.Models;
+using ForumQuestions.Repositories;
 
 namespace ForumQuestions.Controllers
 {
     public class QuestionsController : Controller
     {
-        private readonly ApplicationDbContext context;
 
-        public QuestionsController(ApplicationDbContext ctx)
+        private readonly IRepository context;
+        public QuestionsController(IRepository r)
         {
-            context = ctx;
+            context = r;
         }
 
         // GET: Questions
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await context.Question.ToListAsync());
+            return View(context.Questions.ToList());
         }
 
         // GET: Questions/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var question = await context.Question
-                .FirstOrDefaultAsync(m => m.QuestionID == id);
+            var question = context.Questions
+                .FirstOrDefault(m => m.QuestionID == id);
             if (question == null)
             {
                 return NotFound();
@@ -54,26 +55,22 @@ namespace ForumQuestions.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
+        public IActionResult Create([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
         {
             if (ModelState.IsValid)
             {
-                context.Add(question);
-                await context.SaveChangesAsync();
+                context.AddQuestion(question);
+                //context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(question);
         }
 
         // GET: Questions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var question = await context.Question.FindAsync(id);
+            var question = context.Questions.Find(q => q.QuestionID == id);
             if (question == null)
             {
                 return NotFound();
@@ -86,7 +83,7 @@ namespace ForumQuestions.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
+        public IActionResult Edit(int id, [Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
         {
             if (id != question.QuestionID)
             {
@@ -97,8 +94,8 @@ namespace ForumQuestions.Controllers
             {
                 try
                 {
-                    context.Update(question);
-                    await context.SaveChangesAsync();
+                    //context.Update(question);
+                    //await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +114,15 @@ namespace ForumQuestions.Controllers
         }
 
         // GET: Questions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var question = await context.Question
-                .FirstOrDefaultAsync(m => m.QuestionID == id);
+            var question = context.Questions
+                .FirstOrDefault(m => m.QuestionID == id);
             if (question == null)
             {
                 return NotFound();
@@ -137,17 +134,17 @@ namespace ForumQuestions.Controllers
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var question = await context.Question.FindAsync(id);
-            context.Question.Remove(question);
-            await context.SaveChangesAsync();
+            var question = context.Questions.Find(q => q.QuestionID == id);
+            context.Questions.Remove(question);
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool QuestionExists(int id)
         {
-            return context.Question.Any(e => e.QuestionID == id);
+            return context.Questions.Any(e => e.QuestionID == id);
         }
     }
 }

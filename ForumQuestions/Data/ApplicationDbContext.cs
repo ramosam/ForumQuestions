@@ -12,7 +12,7 @@ namespace ForumQuestions.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<ForumQuestions.Models.Question> Question { get; set; }
-
+        public DbSet<ForumQuestions.Models.Reply> Reply { get; set; }
 
 
 
