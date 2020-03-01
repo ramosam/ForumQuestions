@@ -22,18 +22,21 @@ namespace ForumQuestions.Repositories
         {
             Question q1 = new Question
             {
+                QuestionID = 0,
                 QuestionHeader = "questionHeader1",
                 QuestionBody = "questionBody1"
             };
             q1.FindKeywords();
             Question q2 = new Question
             {
+                QuestionID = 1,
                 QuestionHeader = "questionHeader2",
                 QuestionBody = "questionBody2"
             };
             q2.FindKeywords();
             Question q3 = new Question
             {
+                QuestionID = 2,
                 QuestionHeader = "questionHeader3",
                 QuestionBody = "questionBody3"
             };
@@ -44,18 +47,21 @@ namespace ForumQuestions.Repositories
 
             Reply r1 = new Reply
             {
+                ReplyID = 0,
                 QuestionPost = q1,
                 ReplyBody = "reply1"
             };
             r1.FindKeywords();
             Reply r2 = new Reply
             {
+                ReplyID = 1,
                 QuestionPost = q2,
                 ReplyBody = "reply2"
             };
             r2.FindKeywords();
             Reply r3 = new Reply
             {
+                ReplyID = 2,
                 QuestionPost = q3,
                 ReplyBody = "reply3"
             };
@@ -85,7 +91,7 @@ namespace ForumQuestions.Repositories
             replies.Add(r);
         }
 
-        public Question FindForumQuestionByID(int id)
+        public Question FindQuestionByID(int id)
         {
             Question q = questions.Find(fq => fq.QuestionID == id);
             if (q == null)
@@ -99,7 +105,7 @@ namespace ForumQuestions.Repositories
             return q;
         }
 
-        public Question FindForumQuestionByQuestionHeader(string questionHeader)
+        public Question FindQuestionByQuestionHeader(string questionHeader)
         {
             Question q = questions.Find(fq => fq.QuestionHeader == questionHeader);
             if (q == null)

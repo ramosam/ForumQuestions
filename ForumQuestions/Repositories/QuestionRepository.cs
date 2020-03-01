@@ -38,12 +38,12 @@ namespace ForumQuestions.Repositories
             throw new NotImplementedException();
         }
 
-        public Question FindForumQuestionByQuestionHeader(string questionHeader)
+        public Question FindQuestionByQuestionHeader(string questionHeader)
         {
             throw new NotImplementedException();
         }
 
-        public Question FindForumQuestionByID(int id)
+        public Question FindQuestionByID(int id)
         {
             throw new NotImplementedException();
         }

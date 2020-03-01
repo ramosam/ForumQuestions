@@ -17,9 +17,9 @@ namespace ForumQuestions.Repositories
 
         void AddReply(Question q, Reply r);
 
-        Question FindForumQuestionByQuestionHeader(string questionHeader);
+        Question FindQuestionByQuestionHeader(string questionHeader);
 
-        Question FindForumQuestionByID(int id);
+        Question FindQuestionByID(int id);
 
     }
 }

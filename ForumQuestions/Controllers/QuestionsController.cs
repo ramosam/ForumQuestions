@@ -55,7 +55,7 @@ namespace ForumQuestions.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
+        public IActionResult AddQuestion([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
         {
             if (ModelState.IsValid)
             {
@@ -146,5 +146,25 @@ namespace ForumQuestions.Controllers
         {
             return context.Questions.Any(e => e.QuestionID == id);
         }
+
+
+        public IActionResult AddReply(Question q, Reply r)
+        {
+            context.AddReply(q, r);
+            return View();
+        }
+
+        public Question FindQuestionByID(int id)
+        {
+            Question q = context.FindQuestionByID(id);
+            return q;
+        }
+
+        public Question FindQuestionByQuestionHeader(string header)
+        {
+            Question q = context.FindQuestionByQuestionHeader(header);
+            return q;
+        }
+
     }
 }
