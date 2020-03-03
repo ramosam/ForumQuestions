@@ -19,9 +19,24 @@ namespace ForumQuestions.Repositories
         }
 
 
-        public List<Question> Questions => throw new NotImplementedException();
+        public List<Question> Questions
+        {
+            get
+            {
+                var questions = context.Question.ToList();
+                return questions;
+            }
+        }
 
-        public List<Reply> Replies => throw new NotImplementedException();
+        public List<Reply> Replies
+        {
+            get
+            {
+                var replies = context.Reply.ToList();
+                return replies;
+            }
+        }
+
 
         public List<Question> GetQuestionsByKeyword(string keyword)
         {
@@ -30,22 +45,28 @@ namespace ForumQuestions.Repositories
 
         public void AddQuestion(Question q)
         {
-            throw new NotImplementedException();
+            context.Question.Add(q);
+            context.SaveChanges();
         }
 
         public void AddReply(Question q, Reply r)
         {
-            throw new NotImplementedException();
+            r.QuestionPost = q;
+            context.Reply.Add(r);
+            context.Question.Update(q);
+            context.SaveChanges();
         }
 
         public Question FindQuestionByQuestionHeader(string questionHeader)
         {
-            throw new NotImplementedException();
+            Question q = context.Question.FirstOrDefault(quest => quest.QuestionHeader == questionHeader);
+            return q;
         }
 
         public Question FindQuestionByID(int id)
         {
-            throw new NotImplementedException();
+            Question q = context.Question.FirstOrDefault(quest => quest.QuestionID == id);
+            return q;
         }
     }
 }
