@@ -26,6 +26,11 @@ namespace ForumQuestions.Controllers
             return View(context.Questions.ToList());
         }
 
+        public IActionResult Forum()
+        {
+            return View();
+        }
+
         // GET: Questions/Details/5
         public IActionResult Details(int? id)
         {
@@ -148,6 +153,11 @@ namespace ForumQuestions.Controllers
         }
 
 
+        public IActionResult AddReply()
+        {
+            return View();
+        }
+        [HttpPost]
         public IActionResult AddReply(Question q, Reply r)
         {
             context.AddReply(q, r);

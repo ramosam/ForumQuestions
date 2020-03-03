@@ -19,6 +19,7 @@ namespace ForumQuestions.Models
         public List<string> Keywords { get { return keywords; } }
 
         private List<Reply> replies = new List<Reply>();
+        public List<Reply> Replies { get { return replies; } }
         public void AddReply(Reply r)
         {
             replies.Add(r);
