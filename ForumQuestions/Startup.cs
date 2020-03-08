@@ -44,8 +44,8 @@ namespace ForumQuestions
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 6;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+                //.AddDefaultTokenProviders();
             services.AddScoped<ApplicationDbContext>();
 
 
@@ -89,8 +89,7 @@ namespace ForumQuestions
 
             ApplicationDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
 
-            // Seed data goes here.
-            // SeedData.Seed(context);
+            SeedData.Seed(context);
 
         }
     }

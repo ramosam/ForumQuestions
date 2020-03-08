@@ -47,6 +47,20 @@ namespace ForumQuestions.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Question",
+                columns: table => new
+                {
+                    QuestionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionHeader = table.Column<string>(nullable: true),
+                    QuestionBody = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Question", x => x.QuestionID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -153,45 +167,17 @@ namespace ForumQuestions.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Question",
-                columns: table => new
-                {
-                    QuestionID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MemberId = table.Column<string>(nullable: true),
-                    QuestionHeader = table.Column<string>(nullable: true),
-                    QuestionBody = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Question", x => x.QuestionID);
-                    table.ForeignKey(
-                        name: "FK_Question_AspNetUsers_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reply",
                 columns: table => new
                 {
                     ReplyID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionPostQuestionID = table.Column<int>(nullable: true),
-                    MemberId = table.Column<string>(nullable: true),
                     ReplyBody = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reply", x => x.ReplyID);
-                    table.ForeignKey(
-                        name: "FK_Reply_AspNetUsers_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reply_Question_QuestionPostQuestionID",
                         column: x => x.QuestionPostQuestionID,
@@ -240,16 +226,6 @@ namespace ForumQuestions.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Question_MemberId",
-                table: "Question",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reply_MemberId",
-                table: "Reply",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reply_QuestionPostQuestionID",
                 table: "Reply",
                 column: "QuestionPostQuestionID");
@@ -279,10 +255,10 @@ namespace ForumQuestions.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Question");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Question");
         }
     }
 }

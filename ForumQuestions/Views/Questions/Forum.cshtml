@@ -23,18 +23,12 @@
             </tr>
             <tr><td>@fq.QuestionBody</td></tr>
 
-            <tr><td>Asked by @fq.Member.UserName</td></tr>
 
             @foreach (Reply r in fq.Replies)
             {
                 <tr>
                     <td><p>@r.ReplyBody</p></td>
                 </tr>
-                <tr>
-                    <td>Submitted by: @r.Member.UserName</td>
-                </tr>
-                
-
             }
 
         </table>

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumQuestions.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200307232548_Init")]
+    [Migration("20200308001737_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,9 +93,6 @@ namespace ForumQuestions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MemberId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("QuestionBody")
                         .HasColumnType("nvarchar(max)");
 
@@ -103,8 +100,6 @@ namespace ForumQuestions.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuestionID");
-
-                    b.HasIndex("MemberId");
 
                     b.ToTable("Question");
                 });
@@ -116,9 +111,6 @@ namespace ForumQuestions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MemberId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("QuestionPostQuestionID")
                         .HasColumnType("int");
 
@@ -126,8 +118,6 @@ namespace ForumQuestions.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReplyID");
-
-                    b.HasIndex("MemberId");
 
                     b.HasIndex("QuestionPostQuestionID");
 
@@ -265,19 +255,8 @@ namespace ForumQuestions.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ForumQuestions.Models.Question", b =>
-                {
-                    b.HasOne("ForumQuestions.Models.AppUser", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
-                });
-
             modelBuilder.Entity("ForumQuestions.Models.Reply", b =>
                 {
-                    b.HasOne("ForumQuestions.Models.AppUser", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
-
                     b.HasOne("ForumQuestions.Models.Question", "QuestionPost")
                         .WithMany("Replies")
                         .HasForeignKey("QuestionPostQuestionID");
