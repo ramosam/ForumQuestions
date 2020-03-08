@@ -28,7 +28,7 @@ namespace ForumQuestions.Controllers
 
         public IActionResult Forum()
         {
-            return View();
+            return View(context.Questions.ToList());
         }
 
         // GET: Questions/Details/5

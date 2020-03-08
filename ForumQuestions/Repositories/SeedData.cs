@@ -114,6 +114,8 @@ namespace ForumQuestions.Repositories
                 context.Question.Add(faq1);
                 context.Question.Add(faq2);
                 context.Question.Add(faq3);
+
+                context.SaveChanges();
             }
         }
 
