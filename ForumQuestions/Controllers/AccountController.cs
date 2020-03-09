@@ -40,6 +40,8 @@ namespace ForumQuestions.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
+                        var userInRole = await userManager.IsInRoleAsync(user, "Admin");
+                        ViewBag.userRole = userInRole;
                         return Redirect(returnUrl ?? "/");
                     }
                 }
