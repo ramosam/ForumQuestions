@@ -8,7 +8,7 @@ using ForumQuestions.Models;
 
 namespace ForumQuestions.Controllers
 {
-    [Authorize(Roles = "Admins")]
+    [Authorize(Roles = "Admin")]
     public class RoleAdminController : Controller
     {
         private RoleManager<IdentityRole> roleManager;

@@ -6,7 +6,7 @@ using ForumQuestions.Models;
 
 namespace ForumQuestions.Controllers
 {
-    [Authorize(Roles = "Admins")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private UserManager<AppUser> userManager;

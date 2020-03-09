@@ -21,14 +21,15 @@ namespace ForumQuestions.Controllers
         }
 
         // GET: Questions
+        // Knowledge Base
         public IActionResult Index()
         {
-            return View(context.Questions.ToList());
+            return View(context.FindQuestionsByType("KB"));
         }
 
         public IActionResult Forum()
         {
-            return View(context.Questions.ToList());
+            return View(context.FindQuestionsByType("FQ"));
         }
 
         // GET: Questions/Details/5
