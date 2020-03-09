@@ -52,6 +52,7 @@ namespace ForumQuestions.Migrations
                 {
                     QuestionID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(nullable: true),
                     QuestionHeader = table.Column<string>(nullable: true),
                     QuestionBody = table.Column<string>(nullable: true)
                 },

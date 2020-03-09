@@ -64,6 +64,7 @@ namespace ForumQuestions.Controllers
         {
             if (ModelState.IsValid)
             {
+                question.FindKeywords();
                 context.AddQuestion(question);
                 //context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -175,6 +176,13 @@ namespace ForumQuestions.Controllers
             Question q = context.FindQuestionByQuestionHeader(header);
             return q;
         }
+
+        public List<Question> FindQuestionsByType(string type)
+        {
+            List<Question> sortedQuestions = context.FindQuestionsByType(type);
+            return sortedQuestions;
+        }
+
 
     }
 }

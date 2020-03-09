@@ -68,5 +68,12 @@ namespace ForumQuestions.Repositories
             Question q = context.Question.FirstOrDefault(quest => quest.QuestionID == id);
             return q;
         }
+
+        public List<Question> FindQuestionsByType(string type)
+        {
+            List<Question> questions = context.Question.ToList();
+            List<Question> sortedQuestions = questions.FindAll(q => q.Type == type);
+            return sortedQuestions;
+        }
     }
 }

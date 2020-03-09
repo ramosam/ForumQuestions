@@ -10,7 +10,7 @@ namespace ForumQuestions.Models
 
         public int QuestionID { get; set; }
 
-
+        public string Type { get; set; }
         public string QuestionHeader { get; set; }
         public string QuestionBody { get; set; }
 

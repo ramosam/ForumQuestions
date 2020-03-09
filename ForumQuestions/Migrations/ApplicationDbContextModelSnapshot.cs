@@ -97,6 +97,9 @@ namespace ForumQuestions.Migrations
                     b.Property<string>("QuestionHeader")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("QuestionID");
 
                     b.ToTable("Question");

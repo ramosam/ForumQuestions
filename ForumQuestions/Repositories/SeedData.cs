@@ -22,12 +22,14 @@ namespace ForumQuestions.Repositories
                "describe an un-representable DateTime Exception",
                     QuestionBody = "I'm getting this error when I try to " +
                "print a DateTime object on my website.",
+                    Type = "FQ"
                 };
 
                 Question fq2 = new Question
                 {
                     QuestionHeader = "Null pointer references when the .cshtml page tries to render Comment objects.",
                     QuestionBody = "The debugger shows that there is a comment object, but the user name is Null.",
+                    Type = "FQ"
                 };
                 // Populate keywords
                 fq1.FindKeywords();
@@ -78,6 +80,7 @@ namespace ForumQuestions.Repositories
                 "parameter type but the argument name (if any) used in the " +
                 "calling code doesn't have to be the same as the parameter " +
                 "named defined in the method. ",
+                    Type = "KB"
                 };
 
 
@@ -88,6 +91,7 @@ namespace ForumQuestions.Repositories
                     QuestionBody = "An argument passed as ref must be initialized" +
                 " before passing to the method whereas the out parameter needs not " +
                 "to be initialized before passing to a method. ",
+                    Type = "KB"
                 };
 
 
@@ -105,6 +109,7 @@ namespace ForumQuestions.Repositories
                 " execution before any objects are created. And Void is a " +
                 "type modifier that states that the method or variable does " +
                 "not return any value. ",
+                    Type = "KB"
                 };
                 // Add keywords
                 faq1.FindKeywords();

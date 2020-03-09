@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumQuestions.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200308001737_Init")]
+    [Migration("20200308041809_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace ForumQuestions.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuestionHeader")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuestionID");

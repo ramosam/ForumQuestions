@@ -1,6 +1,7 @@
 using ForumQuestions.Controllers;
 using ForumQuestions.Models;
 using ForumQuestions.Repositories;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ForumQuestions.Tests
@@ -87,7 +88,8 @@ namespace ForumQuestions.Tests
             {
                 QuestionID = repo.Questions.Count,
                 QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
+                QuestionBody = "testQuestionBody1",
+                Type = "KB"
             };
             questionController.AddQuestion(q1);
 
@@ -95,6 +97,36 @@ namespace ForumQuestions.Tests
 
             // Assert
             Assert.Equal(q.QuestionHeader, repo.Questions[0].QuestionHeader);
+        }
+
+        [Fact]
+        public void TestQuestionsByType()
+        {
+            var repo = new FakeRepository();
+
+            Question q1 = new Question
+            {
+                QuestionID = repo.Questions.Count,
+                QuestionHeader = "testQuestion1",
+                QuestionBody = "testQuestionBody1",
+                Type = "KB"
+            };
+            Question q2 = new Question
+            {
+                QuestionID = repo.Questions.Count,
+                QuestionHeader = "testQuestion2",
+                QuestionBody = "testQuestionBody2",
+                Type = "FQ"
+            };
+            repo.AddQuestion(q1);
+            repo.AddQuestion(q2);
+
+            List<Question> sortedQuestions = repo.FindQuestionsByType("KB");
+            Assert.Equal("testQuestion1", sortedQuestions[0].QuestionHeader);
+            var questionsController = new QuestionsController(repo);
+            List<Question> remainingQuestions = questionsController.FindQuestionsByType("FQ");
+            Assert.Equal("testQuestionBody2", remainingQuestions[0].QuestionBody);
+
         }
 
     }
