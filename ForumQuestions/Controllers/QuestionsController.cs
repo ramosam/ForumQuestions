@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ForumQuestions.Data;
 using ForumQuestions.Models;
 using ForumQuestions.Repositories;
+using System.Web;
 
 namespace ForumQuestions.Controllers
 {
@@ -22,7 +23,7 @@ namespace ForumQuestions.Controllers
 
         // GET: Questions
         // Knowledge Base
-        public IActionResult Index()
+        public IActionResult KnowledgeBase()
         {
             return View(context.FindQuestionsByType("KB"));
         }
@@ -30,6 +31,82 @@ namespace ForumQuestions.Controllers
         public IActionResult Forum()
         {
             return View(context.FindQuestionsByType("FQ"));
+        }
+
+        public ActionResult SearchByKeyword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult KeywordResults(string userSearchString)
+        {
+            // Empty fqList
+            List<Question> fqResults = new List<Question>();
+
+            // Check if user entered anything
+            if (userSearchString != null)
+            {
+                // Grab the userSting to process
+                fqResults = context.GetQuestionsByKeyword(userSearchString.ToLower());
+            }
+
+            return View("KeywordResults", fqResults);
+        }
+
+        //public IActionResult AddForumQuestion()
+        //{
+        //    return View();
+        //}
+
+        public IActionResult AddForumReply(string questionheader)
+        {
+            return View("AddForumReply", HttpUtility.HtmlDecode(questionheader));
+            
+        }
+
+        [HttpPost]
+        public RedirectToActionResult AddForumQuestion(string questionHeader, string questionBody)
+        {
+            if (questionHeader == null || questionBody == null)
+            {
+                return RedirectToAction("AddForumQuestion");
+            }
+            else
+            {
+
+                Question newFQ = new Question
+                {
+                    Type = "FQ",
+                    QuestionHeader = questionHeader,
+                    QuestionBody = questionBody,
+
+                };
+
+                newFQ.FindKeywords();
+                context.AddQuestion(newFQ);
+            }
+
+
+            return RedirectToAction("Forum");
+        }
+
+
+
+        [HttpPost]
+        public RedirectToActionResult AddForumReply(string questionheader, string replyBody)
+        {
+            Question fq = context.FindQuestionByQuestionHeader(questionheader);
+
+            Reply reply = new Reply
+            {
+                QuestionPost = fq,
+                ReplyBody = replyBody
+            };
+
+            context.AddReply(fq, reply);
+
+            return RedirectToAction("Forum", context.FindQuestionsByType("FQ"));
         }
 
         // GET: Questions/Details/5
@@ -59,19 +136,19 @@ namespace ForumQuestions.Controllers
         // POST: Questions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddQuestion([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
-        {
-            if (ModelState.IsValid)
-            {
-                question.FindKeywords();
-                context.AddQuestion(question);
-                //context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(question);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult AddQuestion([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        question.FindKeywords();
+        //        context.AddQuestion(question);
+        //        //context.SaveChanges();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(question);
+        //}
 
         // GET: Questions/Edit/5
         public IActionResult Edit(int id)

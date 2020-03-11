@@ -1,0 +1,31 @@
+﻿@model Question;
+@{
+    ViewData["Title"] = "Add Forum Question";
+}
+
+<div>
+    <h4>Ask a question!</h4>
+    <br />
+    <p>
+        Please provide all the relevant information that you can. 
+    </p>
+    <br />
+    <br />
+    <form asp-controller="Questions" class="p-a-1" asp-action="AddForumQuestion">
+        <label asp-for="QuestionHeader">Question Title:</label>
+        <textarea required class="form-control" rows="2" name="QuestionHeader"></textarea>
+        <label asp-for="QuestionBody">Question Body:</label>
+        <textarea required class="form-control" rows="4" name="QuestionBody"></textarea>
+        <br />
+        <button class="btn btn-primary" type="submit">
+            Submit question
+        </button>
+    </form>
+
+    <br />
+    <br />
+    <p>
+        Go back to the <a href="/Questions/Forum">Forum</a>
+    </p>
+        
+</div>

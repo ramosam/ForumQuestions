@@ -2,37 +2,38 @@
 @{
     ViewData["Title"] = "Forum";
 }
-
-<h1>@ViewData["Title"]</h1>
-<br />
-<p>Welcome to the Jungle</p>
-<br />
-<p>
-    Here in the Jungle is a wild variety of questions, a wild variety of answers, and everything in between. Remember to be civil. Today you might be asking a question, but tomorrow, you might be answering one.
-</p>
-<br />
-<a href="AddForumQuestion">Ask a question</a>
-<br />
-<br />
-<div class="autoCenterWide">
-    @foreach (Question fq in Model)
-    {
-        <table class=" table table-bordered ">
-            <tr>
-                <th><h5> @fq.QuestionHeader</h5></th>
-            </tr>
-            <tr><td>@fq.QuestionBody</td></tr>
-
-
-            @foreach (Reply r in fq.Replies)
+    <div id="fq">
+        <h1>@ViewData["Title"]</h1>
+        <br />
+        <p>Welcome to the Jungle</p>
+        <br />
+        <p>
+            Here in the Jungle is a wild variety of questions, a wild variety of answers, and everything in between. Remember to be civil. Today you might be asking a question, but tomorrow, you might be answering one.
+        </p>
+        <br />
+        <a href="AddForumQuestion">Ask a question</a>
+        <br />
+        <br />
+        <div class="autoCenterWide">
+            @foreach (Question fq in Model)
             {
-                <tr>
-                    <td><p>@r.ReplyBody</p></td>
-                </tr>
-            }
+                <table class=" table table-bordered ">
+                    <tr>
+                        <th><h5 class="font-weight-bold"> @fq.QuestionHeader</h5></th>
+                    </tr>
+                    <tr><td class="font-weight-bold">@fq.QuestionBody</td></tr>
 
-        </table>
-        <a asp-action="AddReply" asp-route-questionheader="@fq.QuestionHeader">Add a reply</a>
-        <br /><br /><br />
-    }
-</div>
+
+                    @foreach (Reply r in fq.Replies)
+                    {
+                        <tr>
+                            <td class="tdpad "><p>@r.ReplyBody</p></td>
+                        </tr>
+                    }
+
+                </table>
+                <a asp-action="AddForumReply" asp-route-questionheader="@fq.QuestionHeader">Add a reply</a>
+                <br /><br /><br />
+            }
+        </div>
+    </div>

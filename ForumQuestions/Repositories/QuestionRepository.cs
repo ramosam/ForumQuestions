@@ -23,7 +23,7 @@ namespace ForumQuestions.Repositories
         {
             get
             {
-                var questions = context.Question.ToList();
+                var questions = context.Question.Include(q => q.Replies).ToList();
                 return questions;
             }
         }
@@ -51,8 +51,9 @@ namespace ForumQuestions.Repositories
 
         public void AddReply(Question q, Reply r)
         {
-            r.QuestionPost = q;
+            
             context.Reply.Add(r);
+            q.AddReply(r);
             context.Question.Update(q);
             context.SaveChanges();
         }
@@ -71,7 +72,7 @@ namespace ForumQuestions.Repositories
 
         public List<Question> FindQuestionsByType(string type)
         {
-            List<Question> questions = context.Question.ToList();
+            List<Question> questions = context.Question.Include(q => q.Replies).ToList();
             List<Question> sortedQuestions = questions.FindAll(q => q.Type == type);
             return sortedQuestions;
         }
