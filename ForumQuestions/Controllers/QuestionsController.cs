@@ -9,6 +9,7 @@ using ForumQuestions.Data;
 using ForumQuestions.Models;
 using ForumQuestions.Repositories;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ForumQuestions.Controllers
 {
@@ -54,10 +55,7 @@ namespace ForumQuestions.Controllers
             return View("KeywordResults", fqResults);
         }
 
-        //public IActionResult AddForumQuestion()
-        //{
-        //    return View();
-        //}
+
 
         public IActionResult AddForumReply(string questionheader)
         {
@@ -65,7 +63,9 @@ namespace ForumQuestions.Controllers
             
         }
 
+
         [HttpPost]
+        [Authorize(Roles = "Member, Admin")]
         public RedirectToActionResult AddForumQuestion(string questionHeader, string questionBody)
         {
             if (questionHeader == null || questionBody == null)
@@ -94,6 +94,7 @@ namespace ForumQuestions.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Member, Admin")]
         public RedirectToActionResult AddForumReply(string questionheader, string replyBody)
         {
             Question fq = context.FindQuestionByQuestionHeader(questionheader);
@@ -107,6 +108,25 @@ namespace ForumQuestions.Controllers
             context.AddReply(fq, reply);
 
             return RedirectToAction("Forum", context.FindQuestionsByType("FQ"));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public RedirectToActionResult AddQuestion(Question quest)
+        {
+            if (quest == null)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+
+                quest.FindKeywords();
+                context.AddQuestion(quest);
+            }
+
+
+            return RedirectToAction("KnowledgeBase");
         }
 
         // GET: Questions/Details/5
@@ -133,22 +153,7 @@ namespace ForumQuestions.Controllers
             return View();
         }
 
-        // POST: Questions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddQuestion([Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        question.FindKeywords();
-        //        context.AddQuestion(question);
-        //        //context.SaveChanges();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(question);
-        //}
+        
 
         // GET: Questions/Edit/5
         public IActionResult Edit(int id)
@@ -165,8 +170,10 @@ namespace ForumQuestions.Controllers
         // POST: Questions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, [Bind("QuestionID,QuestionHeader,QuestionBody")] Question question)
         {
             if (id != question.QuestionID)
@@ -218,6 +225,7 @@ namespace ForumQuestions.Controllers
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             var question = context.Questions.Find(q => q.QuestionID == id);
@@ -236,7 +244,9 @@ namespace ForumQuestions.Controllers
         {
             return View();
         }
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddReply(Question q, Reply r)
         {
             context.AddReply(q, r);

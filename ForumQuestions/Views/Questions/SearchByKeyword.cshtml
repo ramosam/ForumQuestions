@@ -1,0 +1,16 @@
+﻿@model String
+@{
+    ViewData["Title"] = "Search By Keyword";
+}
+
+<h1>@ViewData["Title"]</h1>
+<br />
+<form asp-action="KeywordResults">
+    <label for="userSearchString"></label>
+    <input required type="text" placeholder="Search by keyword" alt="Search by keyword"
+           name="userSearchString"
+           asp-controller="Forum"
+           asp-action="post">
+    <button class="btn btn-primary" type="submit">Search</button>
+    
+</form>

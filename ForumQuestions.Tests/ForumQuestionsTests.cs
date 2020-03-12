@@ -16,12 +16,7 @@ namespace ForumQuestions.Tests
             var questionController = new QuestionsController(repo);
 
             // Act
-            Question q1 = new Question
-            {
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
-            };
-            questionController.AddQuestion(q1);
+            questionController.AddForumQuestion("testQuestion1", "testQuestionBody1");
 
             // Assert
             Assert.Equal(4, repo.Questions.Count);
@@ -36,12 +31,8 @@ namespace ForumQuestions.Tests
             var questionController = new QuestionsController(repo);
 
             // Act
-            Question q1 = new Question
-            {
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
-            };
-            questionController.AddQuestion(q1);
+            questionController.AddForumQuestion("testQuestion1", "testQuestionBody1");
+            Question q1 = questionController.FindQuestionByQuestionHeader("testQuestion1");
             Reply r1 = new Reply
             {
                 QuestionPost = q1,
@@ -61,19 +52,19 @@ namespace ForumQuestions.Tests
             var repo = new FakeRepository();
             var questionController = new QuestionsController(repo);
 
-            // Act
-            Question q1 = new Question
+            Question quest = new Question
             {
-                QuestionID = repo.Questions.Count,
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
+                QuestionID = 3,
+                QuestionHeader = "header",
+                QuestionBody = "body"
             };
-            questionController.AddQuestion(q1);
+            // Act
+            questionController.AddQuestion(quest);
 
             Question q = questionController.FindQuestionByID(3);
 
             // Assert
-            Assert.Equal("testQuestion1", q.QuestionHeader);
+            Assert.Equal("header", q.QuestionHeader);
         }
 
         [Fact]
@@ -82,21 +73,19 @@ namespace ForumQuestions.Tests
             // Arrange
             var repo = new FakeRepository();
             var questionController = new QuestionsController(repo);
-
-            // Act
-            Question q1 = new Question
+            Question quest = new Question
             {
-                QuestionID = repo.Questions.Count,
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1",
-                Type = "KB"
+                QuestionID = 3,
+                QuestionHeader = "header",
+                QuestionBody = "body"
             };
-            questionController.AddQuestion(q1);
+            // Act
+            questionController.AddQuestion(quest);
 
-            Question q = questionController.FindQuestionByQuestionHeader("questionHeader1");
+            Question q = questionController.FindQuestionByQuestionHeader("header");
 
             // Assert
-            Assert.Equal(q.QuestionHeader, repo.Questions[0].QuestionHeader);
+            Assert.Equal(q.QuestionHeader, repo.Questions[3].QuestionHeader);
         }
 
         [Fact]
