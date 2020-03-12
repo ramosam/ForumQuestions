@@ -13,7 +13,6 @@ namespace ForumQuestions.Models
         public Question QuestionPost { get; set; }
 
 
-        public AppUser Member { get; set; }
         // The reply body that the member wrote
         public string ReplyBody { get; set; }
 

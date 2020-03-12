@@ -1,6 +1,7 @@
 using ForumQuestions.Controllers;
 using ForumQuestions.Models;
 using ForumQuestions.Repositories;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ForumQuestions.Tests
@@ -15,12 +16,7 @@ namespace ForumQuestions.Tests
             var questionController = new QuestionsController(repo);
 
             // Act
-            Question q1 = new Question
-            {
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
-            };
-            questionController.AddQuestion(q1);
+            questionController.AddForumQuestion("testQuestion1", "testQuestionBody1");
 
             // Assert
             Assert.Equal(4, repo.Questions.Count);
@@ -35,12 +31,8 @@ namespace ForumQuestions.Tests
             var questionController = new QuestionsController(repo);
 
             // Act
-            Question q1 = new Question
-            {
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
-            };
-            questionController.AddQuestion(q1);
+            questionController.AddForumQuestion("testQuestion1", "testQuestionBody1");
+            Question q1 = questionController.FindQuestionByQuestionHeader("testQuestion1");
             Reply r1 = new Reply
             {
                 QuestionPost = q1,
@@ -60,19 +52,19 @@ namespace ForumQuestions.Tests
             var repo = new FakeRepository();
             var questionController = new QuestionsController(repo);
 
-            // Act
-            Question q1 = new Question
+            Question quest = new Question
             {
-                QuestionID = repo.Questions.Count,
-                QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
+                QuestionID = 3,
+                QuestionHeader = "header",
+                QuestionBody = "body"
             };
-            questionController.AddQuestion(q1);
+            // Act
+            questionController.AddQuestion(quest);
 
             Question q = questionController.FindQuestionByID(3);
 
             // Assert
-            Assert.Equal("testQuestion1", q.QuestionHeader);
+            Assert.Equal("header", q.QuestionHeader);
         }
 
         [Fact]
@@ -81,20 +73,49 @@ namespace ForumQuestions.Tests
             // Arrange
             var repo = new FakeRepository();
             var questionController = new QuestionsController(repo);
-
+            Question quest = new Question
+            {
+                QuestionID = 3,
+                QuestionHeader = "header",
+                QuestionBody = "body"
+            };
             // Act
+            questionController.AddQuestion(quest);
+
+            Question q = questionController.FindQuestionByQuestionHeader("header");
+
+            // Assert
+            Assert.Equal(q.QuestionHeader, repo.Questions[3].QuestionHeader);
+        }
+
+        [Fact]
+        public void TestQuestionsByType()
+        {
+            var repo = new FakeRepository();
+
             Question q1 = new Question
             {
                 QuestionID = repo.Questions.Count,
                 QuestionHeader = "testQuestion1",
-                QuestionBody = "testQuestionBody1"
+                QuestionBody = "testQuestionBody1",
+                Type = "KB"
             };
-            questionController.AddQuestion(q1);
+            Question q2 = new Question
+            {
+                QuestionID = repo.Questions.Count,
+                QuestionHeader = "testQuestion2",
+                QuestionBody = "testQuestionBody2",
+                Type = "FQ"
+            };
+            repo.AddQuestion(q1);
+            repo.AddQuestion(q2);
 
-            Question q = questionController.FindQuestionByQuestionHeader("questionHeader1");
+            List<Question> sortedQuestions = repo.FindQuestionsByType("KB");
+            Assert.Equal("testQuestion1", sortedQuestions[0].QuestionHeader);
+            var questionsController = new QuestionsController(repo);
+            List<Question> remainingQuestions = questionsController.FindQuestionsByType("FQ");
+            Assert.Equal("testQuestionBody2", remainingQuestions[0].QuestionBody);
 
-            // Assert
-            Assert.Equal(q.QuestionHeader, repo.Questions[0].QuestionHeader);
         }
 
     }

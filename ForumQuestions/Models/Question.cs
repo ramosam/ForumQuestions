@@ -10,8 +10,7 @@ namespace ForumQuestions.Models
 
         public int QuestionID { get; set; }
 
-        public AppUser Member { get; set; }
-
+        public string Type { get; set; }
         public string QuestionHeader { get; set; }
         public string QuestionBody { get; set; }
 
@@ -19,6 +18,7 @@ namespace ForumQuestions.Models
         public List<string> Keywords { get { return keywords; } }
 
         private List<Reply> replies = new List<Reply>();
+        public List<Reply> Replies { get { return replies; } }
         public void AddReply(Reply r)
         {
             replies.Add(r);

@@ -1,0 +1,46 @@
+﻿@model List<Question>;
+@{
+    ViewData["Title"] = "Knowledge Base";
+}
+
+    <div id="kb">
+        <h1>@ViewData["Title"]</h1>
+
+        <br />
+        <p>
+            The Knowledge Base is a library of explanations. From variables to production deployment, the Tutors have collected and compiled answers for questions students are most often faced with.
+        </p><br /><br />
+
+        <p>
+            @if (ViewBag.thisUserRole == "Admin")
+            {<a asp-action="Create">Create New</a>}
+        </p>
+
+
+        <div class="autoCenterWide">
+            @foreach (Question faq in Model)
+            {
+            <table class=" table table-bordered ">
+
+                <tr>
+                    <th><h5> @faq.QuestionHeader</h5></th>
+                </tr>
+                <tr><td>@faq.QuestionBody</td></tr>
+                <tr><td>
+                    @if (ViewBag.thisUserRole == "Admin")
+                    {
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@faq.QuestionID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@faq.QuestionID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@faq.QuestionID">Delete</a>
+                        </div>
+                    }
+                </td></tr>
+
+            </table>
+
+                <br /><br />
+            }
+        </div>
+        <br />
+    </div>

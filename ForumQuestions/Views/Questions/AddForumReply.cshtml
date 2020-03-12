@@ -1,0 +1,34 @@
+﻿@model String
+@{
+    ViewData["Title"] = "Add a Reply";
+}
+
+<div>
+    <h4>Thanks for helping!</h4>
+    <br />
+    <p>
+        The question is:
+        <em>@Model</em>
+        <br /><br />
+        Please provide all the relevant information that you can. 
+    </p>
+   
+    <form class="p-a-1" asp-action="AddForumReply">
+        <div class="form-group">
+            <input name="questionheader" type="hidden" value="@Model">
+            <label for="replyBody">Response:</label>
+            <textarea required class="form-control" rows="6" name="replyBody"></textarea>
+        </div>
+        <br />
+        <button class="btn btn-primary" type="submit">
+            Submit reply
+        </button>
+    </form>
+
+    <br />
+    <br />
+    <p>
+        Go back to the <a href="/Questions/Forum">Forum</a>
+    </p>
+        
+</div>

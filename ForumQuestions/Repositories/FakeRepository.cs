@@ -104,6 +104,13 @@ namespace ForumQuestions.Repositories
             }
             return q;
         }
+         
+        public List<Question> FindQuestionsByType(string type)
+        {
+            List<Question> typeQuestions = questions.FindAll(q => q.Type == type);
+            
+            return typeQuestions;
+        }
 
         public Question FindQuestionByQuestionHeader(string questionHeader)
         {
@@ -180,5 +187,20 @@ namespace ForumQuestions.Repositories
             // Return shortened list
             return shortList;
         }
+
+        private List<List<Question>> QuestionsByType()
+        {
+            List<Question> fqs = FindQuestionsByType("FQ");
+            List<Question> kbs = FindQuestionsByType("KB");
+            List<List<Question>> sortedQuestions = new List<List<Question>>();
+
+            sortedQuestions.Add(kbs);
+            sortedQuestions.Add(fqs);
+
+            return sortedQuestions;
+        }
+
+
+
     }
 }

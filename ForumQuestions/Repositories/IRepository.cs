@@ -21,5 +21,7 @@ namespace ForumQuestions.Repositories
 
         Question FindQuestionByID(int id);
 
+        List<Question> FindQuestionsByType(string type);
+
     }
 }
