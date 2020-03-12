@@ -26,6 +26,7 @@ namespace ForumQuestions.Controllers
         // Knowledge Base
         public IActionResult KnowledgeBase()
         {
+            
             return View(context.FindQuestionsByType("KB"));
         }
 
@@ -61,6 +62,11 @@ namespace ForumQuestions.Controllers
         {
             return View("AddForumReply", HttpUtility.HtmlDecode(questionheader));
             
+        }
+
+        public IActionResult AddForumQuestion()
+        {
+            return View();
         }
 
 

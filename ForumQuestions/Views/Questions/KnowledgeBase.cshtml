@@ -11,10 +11,10 @@
             The Knowledge Base is a library of explanations. From variables to production deployment, the Tutors have collected and compiled answers for questions students are most often faced with.
         </p><br /><br />
 
-                  <p>
-                      @if (ViewBag.userRole == "Admin")
-                      {<a asp-action="Create">Create New</a>}
-                  </p>
+        <p>
+            @if (ViewBag.thisUserRole == "Admin")
+            {<a asp-action="Create">Create New</a>}
+        </p>
 
 
         <div class="autoCenterWide">
@@ -26,8 +26,8 @@
                     <th><h5> @faq.QuestionHeader</h5></th>
                 </tr>
                 <tr><td>@faq.QuestionBody</td></tr>
-                <td>
-                    @if (ViewBag.userRole == "Admin")
+                <tr><td>
+                    @if (ViewBag.thisUserRole == "Admin")
                     {
                         <div>
                             <a asp-action="Edit" asp-route-id="@faq.QuestionID">Edit</a> |
@@ -35,7 +35,7 @@
                             <a asp-action="Delete" asp-route-id="@faq.QuestionID">Delete</a>
                         </div>
                     }
-                </td>
+                </td></tr>
 
             </table>
 
