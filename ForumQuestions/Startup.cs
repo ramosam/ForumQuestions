@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using ForumQuestions.Repositories;
 using ForumQuestions.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace ForumQuestions
 {
@@ -34,7 +35,7 @@ namespace ForumQuestions
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
                 options.Secure = CookieSecurePolicy.Always;
             });
 
@@ -58,6 +59,20 @@ namespace ForumQuestions
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
         {
+            // Addressing X-Content-Type-Options, X-Frame-Options
+            app.Use(async (ctx, next) =>
+            {
+                ctx.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                ctx.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                ctx.Response.Headers.Add("X-XSS-Protection", "1");
+                ctx.Response.Headers.Add("Cache-Control", "no-cache");
+                ctx.Response.Headers[HeaderNames.CacheControl] = "no-cache, no-store, must-revalidate";
+                ctx.Response.Headers[HeaderNames.Expires] = "0";
+                ctx.Response.Headers[HeaderNames.Pragma] = "no-cache";
+                await next();
+            });
+
+
             app.UseStatusCodePages();
             if (env.IsDevelopment())
             {
